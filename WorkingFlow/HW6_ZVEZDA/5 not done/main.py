@@ -12,16 +12,24 @@ def read_fl(fl_name: str) -> list:
 
 
 def main():
+	move_dict = {
+			'stay':  0,
+			'right': -1,
+			'left':  1,
+	}
 	start_pos = 2
 	current_pos = 2
-	f = open('furry_road.txt', 'r', encoding='utf-8')
+	f = open('furry_road3.txt', 'r', encoding='utf-8')
 	for line in f:
 		usr_lst = line.strip().split(';')
-		while 0 <= current_pos <= 5:
-			if usr_lst[start_pos] == '0':
-				print('stay')
-			if usr_lst[start_pos] == '0':
-				print('stay')
+		for move, delta in move_dict.items():
+			new_move = current_pos + delta
+			if new_move < 0 or new_move >= len(usr_lst):
+				continue
+			if usr_lst[new_move] == '0':
+				print(move)
+				current_pos = new_move
+				break
 
 
 if __name__ == '__main__':
