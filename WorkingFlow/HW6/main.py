@@ -7,7 +7,7 @@ def line_read(lst: list, fl_name: str):
 			lst.append(line.strip().lower())
 
 
-def line_write(name: str, user_points: int, fl_name: str):
+def line_write(name, user_points, fl_name):
 	with open(fl_name, "a", encoding="utf-8") as file:
 		file.write(f'{name} {user_points}\n')
 
