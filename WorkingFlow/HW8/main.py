@@ -14,16 +14,18 @@ class Question:
         usr_answer=None,
         bool_loop=False,
     ):
-        self.question_text = str(question_text)  # текст вопроса 						<- json
-        self.level = int(level)  # уровень сложности вопроса 							<- json
-        self.question_answer = str(
-            question_answer
-        )  # правильный ответ на вопрос 		<- json
-        self.score = int(score)  # баллы за правильный ответ 							<- json * 10
-        self.usr_answer = str(usr_answer)  # ответ пользователя 						-> json
-        self.bool_loop = bool(
-            bool_loop
-        )  # проверка наличия ответ после random.choice 	-> json
+        # текст вопроса <- json
+        self.question_text = str(question_text)
+        # уровень сложности вопроса <- json
+        self.level = int(level)
+        # правильный ответ на вопрос <- json
+        self.question_answer = str(question_answer)
+        # баллы за правильный ответ <- json * 10
+        self.score = int(score)
+        # ответ пользователя -> json
+        self.usr_answer = str(usr_answer)
+        # проверка наличия ответ после random.choice -> json
+        self.bool_loop = bool(bool_loop)
 
     def get_points(self) -> int:
         """
@@ -98,16 +100,25 @@ def main():
     # Заполнение листа экземплярами класса, сортировка базы
     for line in question_db:
         question_list.append(
-            Question(line["q"], line["d"], line["a"], int(line["d"]) * 10)
+            Question(
+                question_text=line["q"],
+                level=line["d"],
+                question_answer=line["a"],
+                score=int(line["d"]) * 10,
+            )
         )
 
-    questions_cnt = 0  # Счётчик вопросов
+    # Счётчик вопросов
+    questions_cnt = 0
     while questions_cnt != len(question_list):
         line = choice(question_list)
-        if line.bool_loop:  # Проверка на уникальность вопроса из БД
+        # Проверка на уникальность вопроса из БД
+        if line.bool_loop:
             continue
-        line.build_question()  # Грузим вопрос из БД
-        line.setattr_bool_loop(True)  # Сеттер уникального вопроса
+        # Грузим вопрос из БД
+        line.build_question()
+        # Сеттер уникального вопроса
+        line.setattr_bool_loop(True)
         line.usr_answer = input(">>>\t")
         if line.is_correct():
             line.build_positive_feedback()
