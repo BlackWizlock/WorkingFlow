@@ -6,11 +6,11 @@ URL_JSON = r'https://jsonkeeper.com/b/B2TA'
 
 class Question:
 	def __init__(self, question_text, level, question_answer, score=0, usr_answer=None, bool_loop=False):
-		self.question_text = str(question_text)  # текст вопроса 								<- json
-		self.level = int(level)  # уровень сложности вопроса 					<- json
-		self.question_answer = str(question_answer)  # правильный ответ на вопрос 					<- json
-		self.score = int(score)  # баллы за правильный ответ 					<- json * 10
-		self.usr_answer = str(usr_answer)  # ответ пользователя 							-> json
+		self.question_text = str(question_text)  # текст вопроса 						<- json
+		self.level = int(level)  # уровень сложности вопроса 							<- json
+		self.question_answer = str(question_answer)  # правильный ответ на вопрос 		<- json
+		self.score = int(score)  # баллы за правильный ответ 							<- json * 10
+		self.usr_answer = str(usr_answer)  # ответ пользователя 						-> json
 		self.bool_loop = bool(bool_loop)  # проверка наличия ответ после random.choice 	-> json
 
 	def get_points(self) -> int:
