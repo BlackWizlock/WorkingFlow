@@ -41,7 +41,7 @@ class Question:
 
         return self.question_answer == self.usr_answer
 
-    def build_question(self):
+    def build_question(self) -> None:
         """
         Возвращает вопрос в понятном пользователю виде, например:
         Вопрос: What do people often call American flag?
@@ -49,14 +49,14 @@ class Question:
         """
         return print(f"{self.question_text}\nСложность {self.level}/5")
 
-    def build_positive_feedback(self):
+    def build_positive_feedback(self) -> None:
         """
         Возвращает
         "Ответ верный, получено __ баллов"
         """
         return print(f"Ответ верный, получено {self.get_points()} баллов")
 
-    def build_negative_feedback(self):
+    def build_negative_feedback(self) -> None:
         """Возвращает :
         Ответ неверный, верный ответ __
         """
