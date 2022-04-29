@@ -38,7 +38,6 @@ class Question:
         """
         Возвращает True, если ответ пользователя совпадает с верным ответом иначе False.
         """
-
         return self.question_answer == self.usr_answer
 
     def build_question(self) -> None:

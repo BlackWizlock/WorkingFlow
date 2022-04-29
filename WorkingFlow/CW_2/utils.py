@@ -16,6 +16,10 @@ def load_random_word(url: str = URL_DB):
         _type_: генерация экземпляра класса игрока
     """
     user_db = get(url).json()
+    # 2022-04-29: Удаление дубликатов словаря возможных ответов
+    for line in user_db:
+        line["subwords"] = list(set(line["subwords"]))
+    # ----
     user_db_line = choice(user_db)
     word_game = classes.BasicWord(
         raw_word=user_db_line["word"], lst_word=user_db_line["subwords"]
