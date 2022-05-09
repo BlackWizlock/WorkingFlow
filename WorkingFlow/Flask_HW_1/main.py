@@ -7,7 +7,7 @@ DATABASE_FILE_PATH = r"candidates.json"
 
 def load_students(filename: str = DATABASE_FILE_PATH) -> list:
     """
-    Загружает студентов из файла в список
+    Загружает БД из json
     Args:
         filename: Имя файла JSON
     Returns: возврат словаря JSON
