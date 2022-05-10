@@ -1,5 +1,5 @@
-import json
-from flask import Flask
+# import json
+from flask import Flask, json
 
 # глобальная переменная пути к БД
 DATABASE_FILE_PATH = r"candidates.json"
@@ -29,6 +29,14 @@ def page_index():
     for line in user_database:
         output += line["name"] + "<br>" + line["position"] + "<br>" + line["skills"] + "<br><br>"
     return "<pre>" + output + "</pre>"
+
+
+@app.route('/json/')
+def page_index_json():
+    """
+    Основная страничка с методом json
+    """
+    return load_students()[0]
 
 
 @app.route('/candidates/<string:x>')
