@@ -39,32 +39,32 @@ def page_index_json():
     return load_students()[0]
 
 
-@app.route('/candidates/<string:x>')
-def page_candidates(x: str):
+@app.route('/candidates/<string:candidate_name>')
+def page_candidates(candidate_name: str):
     """
     Личная страничка кандидата
     Args:
-        x: Имя кандидата из БД
+        candidate_name: Имя кандидата из БД
     """
     output = ""
     for line in user_database:
-        if line["name"].lower() == x.lower():
+        if line["name"].lower() == candidate_name.lower():
             output += "<img src=" + line["picture"] + "><br><br><pre>" + line["name"] + "<br>" + line[
                 "position"] + "<br>" + line["skills"] + "<br><br>"
             break
     return output + "</pre>"
 
 
-@app.route('/skills/<string:x>')
-def page_skills(x: str):
+@app.route('/skills/<string:skill_to_search>')
+def page_skills(skill_to_search: str):
     """
     Страничка по скиллу
     Args:
-        x: скилл для поиска в БД
+        skill_to_search: скилл для поиска в БД
     """
     output = ""
     for line in user_database:
-        if x.lower() in line["skills"].lower():
+        if skill_to_search.lower() in line["skills"].lower():
             output += line["name"] + "<br>" + line["position"] + "<br>" + line["skills"] + "<br><br>"
     return "<pre>" + output + "</pre>"
 
