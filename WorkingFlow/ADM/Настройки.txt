@@ -1,6 +1,0 @@
-﻿{
-    "path_boss": "//pnk2.local/resources/Проектный отдел/Общие/Администрирование/Реестр объектов/Реестр объектов ПД.xlsx",
-    "path_finish_file": "C:/Users/a.salikov/Desktop/Аналитика",
-    "path_worker": "//pnk2.local/resources/Проектный отдел/Общие/Администрирование/Табель",
-    "path_worker_list": "//pnk2.local/resources/Проектный отдел/Общие/Администрирование/Список сотрудников ПД/Список сотрудников ПД.xlsx"
-}
