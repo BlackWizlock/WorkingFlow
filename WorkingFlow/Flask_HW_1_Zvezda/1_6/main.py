@@ -6,22 +6,30 @@ content = "Кот это не хлеб, подумай, не ешь его, ра
 app = Flask(__name__)
 
 
-@app.route('/', )
+@app.route(
+    "/",
+)
 def page_index():
     return "It works"
 
 
-@app.route('/words', )
+@app.route(
+    "/words",
+)
 def page_words():
     return str(len(re.findall(r"\w+", content)))
 
 
-@app.route('/spaces', )
+@app.route(
+    "/spaces",
+)
 def page_spaces():
     return str(len(re.findall(r"\s", content)))
 
 
-@app.route('/letters', )
+@app.route(
+    "/letters",
+)
 def page_letters():
     return str(len(re.findall(r"\w", content)))
 

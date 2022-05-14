@@ -5,12 +5,16 @@ words = ["@кот", "@хлеб", "не", "ешь", "@подумай", "тепе�
 app = Flask(__name__)
 
 
-@app.route('/', )
+@app.route(
+    "/",
+)
 def page_index():
     return "It works"
 
 
-@app.route('/mentions', )
+@app.route(
+    "/mentions",
+)
 def page_mentions():
     return " ".join([i[1::] for i in words if i[0] == "@"])
 

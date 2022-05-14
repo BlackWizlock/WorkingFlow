@@ -3,6 +3,7 @@ def shuffle_letters(word):
     Функция для перемешивания букв в слове
     """
     import random
+
     items = random.sample(word, len(word))
     encoded_word = "".join(items)
     return encoded_word.replace("\n", "")
@@ -38,5 +39,3 @@ def write_to_the_top(name, score):
     """
     with open("history.txt", "a") as file:
         file.write(f"{name} {score}\n")
-
-

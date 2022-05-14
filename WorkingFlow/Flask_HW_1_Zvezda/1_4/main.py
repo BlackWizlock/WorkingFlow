@@ -5,22 +5,30 @@ user_list = [23, 16, 144, 72, 90, 11, 5]
 app = Flask(__name__)
 
 
-@app.route('/', )
+@app.route(
+    "/",
+)
 def page_index():
     return "It works"
 
 
-@app.route('/first', )
+@app.route(
+    "/first",
+)
 def page_first():
     return str(user_list[0])
 
 
-@app.route('/last', )
+@app.route(
+    "/last",
+)
 def page_last():
     return str(user_list[-1])
 
 
-@app.route('/sum', )
+@app.route(
+    "/sum",
+)
 def page_sum():
     return str(sum(user_list))
 

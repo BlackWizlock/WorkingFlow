@@ -3,22 +3,30 @@ from flask import Flask, request, render_template
 app = Flask(__name__)
 
 
-@app.route('/', )
+@app.route(
+    "/",
+)
 def page_index():
     return "It works"
 
 
-@app.route('/hello', )
+@app.route(
+    "/hello",
+)
 def page_hello():
     return "hello"
 
 
-@app.route('/goodbye', )
+@app.route(
+    "/goodbye",
+)
 def page_goodbye():
     return "goodbye"
 
 
-@app.route('/seeyou', )
+@app.route(
+    "/seeyou",
+)
 def page_seeyou():
     return "seeyou"
 

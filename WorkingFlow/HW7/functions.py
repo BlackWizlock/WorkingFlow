@@ -9,7 +9,7 @@ def load_students(filename: str) -> list:
     :return:
     возврат словаря JSON
     """
-    with open(filename, 'r', encoding='utf-8-sig') as f:
+    with open(filename, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 
@@ -21,7 +21,7 @@ def load_professions(filename: str) -> list:
     :return:
     возврат словаря JSON
     """
-    with open(filename, 'r', encoding='utf-8-sig') as f:
+    with open(filename, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 
@@ -35,7 +35,7 @@ def get_student_by_pk(pk: int, usr_lst: list):
     Возврат строки словаря или False для отработки исключений базы
     """
     for item in usr_lst:
-        if item['pk'] == pk:
+        if item["pk"] == pk:
             return item
     return False
 
@@ -50,7 +50,7 @@ def get_profession_by_title(title: str, usr_lst: list):
     Возврат строки словаря или False для отработки исключений базы
     """
     for item in usr_lst:
-        if item['title'] == title:
+        if item["title"] == title:
             return item
     return False
 
@@ -67,7 +67,9 @@ def check_fitness(student: set, profession: set) -> dict:
     out_dict = {
         "has": [*student.intersection(profession)],
         "lacks": [*profession.difference(student)],
-        "fit_percent": round(len(student.intersection(profession)) / len(profession) * 100)
+        "fit_percent": round(
+            len(student.intersection(profession)) / len(profession) * 100
+        ),
     }
 
     return out_dict

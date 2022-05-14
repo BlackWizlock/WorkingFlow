@@ -1,6 +1,7 @@
 # Это программа помогает учить английский
 
 import functions
+
 score = 0  # счётчик баллов
 name = input("Введите имя пользователя\n")
 
@@ -17,7 +18,3 @@ with open("words.txt", "r") as file:
 
 functions.write_to_the_top(name, score)
 functions.print_statistic()
-
-
-
-

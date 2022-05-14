@@ -14,8 +14,7 @@ user_list = [
     "Konfuz - Ратата",
     "Amri - Звезда Тик-Ток",
     "Ваня Дмитриенко - Венера-Юпитер",
-    "Galibri & Mavik - Федерико Феллини (Pitched Version)"
-    "NLO - Не Грусти"
+    "Galibri & Mavik - Федерико Феллини (Pitched Version)" "NLO - Не Грусти",
 ]
-user_dict = {x : user_list.count(x) for x in user_list}
-print(f'{user_dict}')
+user_dict = {x: user_list.count(x) for x in user_list}
+print(f"{user_dict}")

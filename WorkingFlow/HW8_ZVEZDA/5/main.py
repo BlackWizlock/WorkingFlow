@@ -22,6 +22,7 @@ class Hero:
                 self.bronze_coins += coin.value % 100
         return print(self.gold_coins + self.silver_coins / 10 + self.bronze_coins / 100)
 
+
 class Coin:
     def __init__(self, value, metal) -> None:
         self.metal = metal

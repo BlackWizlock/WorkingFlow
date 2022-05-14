@@ -6,7 +6,7 @@ stuff_db = {
     "Дарья У": "Тестировщик",
     "Валерия К": "Бэкендер",
     "Дарья У": "Тестировщик",
-    }
+}
 
 # user_input = input("Enter proffession : \t")
 user_input = "Бэкендер"

@@ -11,5 +11,4 @@ students = {
 user_input = 20
 
 print("Поступили:")
-print(*(k+"\n" for k, v in students.items() if v >= user_input), sep="")
-        
+print(*(k + "\n" for k, v in students.items() if v >= user_input), sep="")
