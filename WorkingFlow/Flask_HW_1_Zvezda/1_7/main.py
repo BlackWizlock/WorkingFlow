@@ -9,9 +9,6 @@ def json_load_db(db_name: str = DB_FILE) -> list:
         return json.load(f)
 
 
-print(json_load_db())
-
-
 @app.route(
     "/",
 )
