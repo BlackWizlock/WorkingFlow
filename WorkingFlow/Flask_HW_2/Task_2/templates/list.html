@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>База данных кандидатов</title>
+</head>
+<body>
+<h1>Все кандидаты</h1>
+<h2>База содержит {{users_db_len}} кандидатов</h2>
+{% for line in users %}
+    <p><a href="/candidate/{{line['id']}}">{{line['name']}}</a></p>
+{% endfor %}
+</body>
+</html>
