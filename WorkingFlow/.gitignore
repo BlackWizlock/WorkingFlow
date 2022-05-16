@@ -4,6 +4,10 @@
 /Hanoi/
 /Stepik/
 /SomeScratches/
+/_freelance/
+/_TempGenerator/
+/.vscode/
+/Arcanoid_Game_PyGame/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
