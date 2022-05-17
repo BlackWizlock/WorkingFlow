@@ -8,15 +8,19 @@
 <body class="align">
 
 <header>
-    <h1>Все кандидаты</h1>
-    <p>База содержит {{ users_db_len }} кандидатов</p>
+    <h4>Все кандидаты
+        База содержит {{ users_db_len }} кандидатов</h4>
 </header>
 
 <main>
     {% for line in users %}
-        <p><a href="/candidate/{{ line['id'] }}">{{ line['name'] }}</a></p>
+    <p><a href="/candidate/{{ line['id'] }}">{{ line['name'] }}</a></p>
     {% endfor %}
 </main>
+
+<footer>
+    <h4><a href="/" class="other_link">to: Главная страница</a></h4>
+</footer>
 
 </body>
 </html>

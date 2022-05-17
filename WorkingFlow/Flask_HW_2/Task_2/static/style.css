@@ -1,18 +1,31 @@
 * {
-    font-family:        Calibri, monospace;
-    margin:             0;
-    padding:            0;
+    font-family: Calibri, monospace;
+    margin: 0;
+    padding: 0;
 }
 
-header {
-    background-color:   tomato;
-    color:              white;
-    padding-top:        16px;
-    padding-bottom:     16px;
-    padding-left:       16px;
+header, footer {
+    background-color: tomato;
+    color: white;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    height: 16px;
+}
+
+main {
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: auto;
 }
 
 .align {
-    padding-left:       Max(calc(50vw - 600px), 32px);
-    padding-right:      Max(calc(50vw - 600px), 32px);
+    padding-left: Max(calc(50vw - 600px), 32px);
+    padding-right: Max(calc(50vw - 600px), 32px);
+}
+
+.other_link {
+    color: white;
+    text-decoration: none;
 }

@@ -17,11 +17,14 @@ def get_candidate(candidate_id: int, user_db: list) -> dict:
 			return line
 
 
-def get_candidates_by_name(candidate_name: str, user_db: list) -> dict:
-	""" Возвращает кандидатов по имени """
+def get_candidates_by_name(candidate_name: str, user_db: list) -> list:
+	""" Возвращает кандидатов по имени, при этом проверяет все записи на соответствие введенному ключу поиска """
+	candidate_output = []
+	candidate_name_not_found = -1  # метод find() возвращает -1 если поиск не удался
 	for line in user_db:
-		if candidate_name.strip().lower() == line["name"].strip().lower():
-			return line
+		if line["name"].strip().lower().find(candidate_name.strip().lower()) != candidate_name_not_found:
+			candidate_output.append(line)
+	return candidate_output
 
 
 def get_candidates_by_skill(skill_name: str, user_db: list):
