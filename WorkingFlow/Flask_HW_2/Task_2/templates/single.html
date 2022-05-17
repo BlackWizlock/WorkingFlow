@@ -2,18 +2,20 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
     <title>Личная страница {{ user.name }}</title>
 </head>
-<body>
-<footer>
-    <h1>{{ user.name }}</h1>
-</footer>
+<body class="align">
 
-<main>
-    <img src="{{ user.picture }}" width=200 alt="Красивая фотография">
-    <p>{{ user.position }}</p>
-    <p>{{ user.skills }}</p>
-</main>
+<header>
+    <h1>{{ user.name }}</h1>
+</header>
+
+<div id="main">
+    <span><img src="{{ user.picture }}" width=200 alt="Красивая фотография"></span>
+    <span>Позиция: {{ user.position }}</span>
+    <span>Обладает навыками: {{ user.skills }}</span>
+</div>
 
 </body>
 </html>

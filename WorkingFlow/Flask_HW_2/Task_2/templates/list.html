@@ -2,14 +2,15 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
     <title>База данных кандидатов</title>
 </head>
-<body>
+<body class="align">
 
-<footer>
-    <span><h1>Все кандидаты</h1></span>
-    <span><h2>База содержит {{ users_db_len }} кандидатов</h2></span>
-</footer>
+<header>
+    <h1>Все кандидаты</h1>
+    <p>База содержит {{ users_db_len }} кандидатов</p>
+</header>
 
 <main>
     {% for line in users %}
