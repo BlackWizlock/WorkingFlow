@@ -5,10 +5,17 @@
     <title>База данных кандидатов</title>
 </head>
 <body>
-<h1>Все кандидаты</h1>
-<h2>База содержит {{users_db_len}} кандидатов</h2>
-{% for line in users %}
-    <p><a href="/candidate/{{line['id']}}">{{line['name']}}</a></p>
-{% endfor %}
+
+<footer>
+    <span><h1>Все кандидаты</h1></span>
+    <span><h2>База содержит {{ users_db_len }} кандидатов</h2></span>
+</footer>
+
+<main>
+    {% for line in users %}
+        <p><a href="/candidate/{{ line['id'] }}">{{ line['name'] }}</a></p>
+    {% endfor %}
+</main>
+
 </body>
 </html>
