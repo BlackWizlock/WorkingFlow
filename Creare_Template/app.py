@@ -6,13 +6,22 @@ from shutil import copy
 import datetime
 
 
-# создаем базу данных
 def dir_create(path):
+    """
+    Проверка наличия папки, если она не создана - создаем
+    :param path: путь к папке
+    """
     if not exists(path):
         mkdir(path)
 
 
 def timestamp(func):
+    """
+    Декоратор timestamp
+    :param func: функция декоратора
+    :return: возвращает время затраченное на обработку функции
+    """
+
     def wrapper(*args):
         start = datetime.datetime.now()
         func(*args)
@@ -78,7 +87,7 @@ def main():
     database = DataBase(path_to_workers)  # создаем папку - если её нет
     dir_create(path_to_templates)  # копируем шаблон и переименовываем под БД
 
-    database.create_files(date, path_to_file_to_be_copy, path_to_templates)
+    database.create_files(date, path_to_file_to_be_copy, path_to_templates)  # создаем файлы по шаблону БД
 
 
 if __name__ == '__main__':
