@@ -53,6 +53,5 @@ def main():
     pp(f"Затрачено времени на генерацию: {datetime.datetime.now() - start}")
 
 
-
 if __name__ == '__main__':
     main()
