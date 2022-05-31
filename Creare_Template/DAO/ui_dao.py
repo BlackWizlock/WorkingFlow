@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from pprint import pprint as pp
 from tkinter import ttk
-from app_dao import DataBase
+from .app_dao import DataBase
 import json
 
 
@@ -10,7 +10,7 @@ def database_define(date, path_to_workers, path_to_templates, path_to_file_to_be
     path_to_templates += fr"\{date}_Табели"
     path_to_file_to_be_copy += fr"\_Шаблон_Табеля_{date}.xlsx"
     database = DataBase(path_to_workers)  # копируем шаблон и переименовываем под БД
-    database.create_files(date, path_to_file_to_be_copy, path_to_templates)  # создаем файлы по шаблону БД
+    # database.create_files(date, path_to_file_to_be_copy, path_to_templates)  # создаем файлы по шаблону БД
 
 
 class Window:
