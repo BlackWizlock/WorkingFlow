@@ -1,94 +1,118 @@
-from openpyxl import Workbook, load_workbook
+from DAO.app_dao import DataBase
+from tkinter import *
+from tkinter import filedialog
 from pprint import pprint as pp
-from os.path import exists
-from os import mkdir
-from shutil import copy
-import datetime
+from tkinter import ttk
+import json
 
 
-def dir_create(path):
-    """
-    Проверка наличия папки, если она не создана - создаем
-    :param path: путь к папке
-    """
-    if not exists(path):
-        mkdir(path)
+class Window:
+    def __init__(self, width, height, title="Создание табелей", resizable=(False, False), icon=None):
+        self.root = Tk()
+        self.root.title(title)
+        self.root.geometry(f"{width}x{height}+200+200")
+        self.root.resizable(resizable[0], resizable[1])
+        if icon:
+            self.root.iconbitmap(icon)
+        self.first_line = Frame(self.root)
+        self.second_line = Frame(self.root)
+        self.third_line = Frame(self.root)
+        self.btn_line = Frame(self.root)
+        self.label_1 = Label(self.first_line, text="Список сотрудников:", width=20)
+        self.path_1 = Entry(self.first_line, width=40)
+        self.btn_1 = Button(self.first_line, text="Открыть", width=10, command=self._btn_1)
+        self.label_2 = Label(self.second_line, text=fr'Папка "Табели":', width=20)
+        self.path_2 = Entry(self.second_line, width=40)
+        self.btn_2 = Button(self.second_line, text="Открыть", width=10, command=self._btn_2)
+        self.label_3 = Label(self.third_line, text="Шаблон:", width=20)
+        self.path_3 = Entry(self.third_line, width=40)
+        self.btn_3 = Button(self.third_line, text="Открыть", width=10, command=self._btn_3)
+        self.label_4 = Label(self.btn_line, text="На какой месяц:", width=20)
+        self.combo_4 = ttk.Combobox(self.btn_line, values=[
+                "2201", "2202", "2203", "2204", "2205", "2206", "2207", "2208", "2209", "2210", "2211", "2212"
+        ])
+        self.btn_4 = Button(self.btn_line, text="Создать табели", width=30, command=self._btn_4)
+        self.path_to_file_1 = None
+        self.path_to_file_2 = None
+        self.path_to_file_3 = None
+
+    def draw_widgets(self):
+        self.first_line.pack()
+        self.second_line.pack()
+        self.third_line.pack()
+        self.btn_line.pack()
+        self.label_1.pack(side=LEFT, padx=5, pady=5)
+        self.path_1.pack(side=LEFT, padx=5, pady=5)
+        self.path_1.insert(0, self._default_values("path_1"))
+        self.btn_1.pack(side=LEFT, padx=5, pady=5)
+        self.label_2.pack(side=LEFT, padx=5, pady=5)
+        self.path_2.pack(side=LEFT, padx=5, pady=5)
+        self.path_2.insert(0, self._default_values("path_2"))
+        self.btn_2.pack(side=LEFT, padx=5, pady=5)
+        self.label_3.pack(side=LEFT, padx=5, pady=5)
+        self.path_3.pack(side=LEFT, padx=5, pady=5)
+        self.path_3.insert(0, self._default_values("path_3"))
+        self.btn_3.pack(side=LEFT, padx=5, pady=5)
+        self.label_4.pack(side=LEFT, padx=5, pady=5)
+        self.combo_4.pack(side=LEFT, padx=5, pady=5)
+        self.combo_4.insert(0, self._default_values("combo_4"))
+        self.btn_4.pack(side=LEFT, padx=5, pady=5)
+
+    def run(self):
+        self.draw_widgets()
+        self.root.mainloop()
+
+    def _config_loader(self):
+        with open("default_values.json", "r", encoding="UTF-8") as f:
+            return json.load(f)
+
+    def _config_writer(self, setting, input_from_user):
+        db = self._config_loader()
+        db[setting] = input_from_user
+        with open("default_values.json", "w", encoding="UTF-8") as f:
+            json.dump(db, f, ensure_ascii=False, indent=2)
+
+    def _default_values(self, setting):
+        config = self._config_loader()
+        for key, value in config.items():
+            if setting == key and value:
+                return value
+        return ""
+
+    def _btn_1(self):
+        self.path_1.delete(0, END)
+        file_1 = filedialog.askopenfilename(filetypes=(("XLSX", "*.xlsx"), ("XLS", "*.xls")))
+        self.path_1.insert(1, str(file_1))
+        self.path_to_file_1 = file_1
+
+    def _btn_2(self):
+        self.path_2.delete(0, END)
+        file_2 = filedialog.askdirectory()
+        self.path_2.insert(1, str(file_2))
+        self.path_to_file_2 = file_2
+
+    def _btn_3(self):
+        self.path_3.delete(0, END)
+        file_3 = filedialog.askdirectory()
+        self.path_3.insert(1, str(file_3))
+        self.path_to_file_3 = file_3
+
+    def _btn_4(self):
+        if self.combo_4.get() and self.path_to_file_1 and self.path_to_file_2 and self.path_to_file_3:
+            self._config_writer("path_1", self.path_to_file_1)
+            self._config_writer("path_2", self.path_to_file_2)
+            self._config_writer("path_3", self.path_to_file_3)
+            self._config_writer("combo_4", self.combo_4.get())
+            database_define(self.combo_4.get(), self.path_to_file_1, self.path_to_file_2, self.path_to_file_3)
 
 
-def timestamp(func):
-    """
-    Декоратор timestamp
-    :param func: функция декоратора
-    :return: возвращает время затраченное на обработку функции
-    """
-
-    def wrapper(*args):
-        start = datetime.datetime.now()
-        func(*args)
-        pp(f"Затрачено времени на генерацию: {datetime.datetime.now() - start}")
-
-    return wrapper
-
-
-class DataBase:
-    def __init__(self, path):
-        """
-        Создаем базу данных, вызываем загрузку в конструкторе
-        :param path: Путь до списка сотрудников в формате xlsx
-        """
-        self.path = path
-        self._db = []
-        self._load_db()
-
-    def _load_db(self):
-        """
-        Загрузка БД xlsx с Лист1
-        :return:
-        """
-        wb = load_workbook(self.path)
-        sheet_ranges = wb["Лист1"]
-        for row in sheet_ranges.iter_rows():
-            for cell in row:
-                self._db.append(cell.value)
-
-    def __repr__(self):
-        return "\n".join(self._db)
-
-    @property
-    def db(self):
-        """
-        Геттер
-        :return: защищенная переменная _db
-        """
-        return self._db
-
-    @timestamp
-    def create_files(self, date, path_to_copy, path_to_template):
-        for item in self._db:
-            try:
-                copy(path_to_copy, fr"{path_to_template}\{date}_{item}.xlsx")
-                pp(f"Создание файла: {date}_{item} - создан!")
-            except:
-                pp(f"Ошибка при создании файла: {date}_{item}")
-
-
-def main():
-    while True:
-        date = input('Введите дату для создания шаблона (ГГММ):')
-        if date.isdigit():
-            break
-        else:
-            pp("Ошибка в формате ввода (ГГММ), повторите попытку")
-
-    path_to_workers = r"\\pnk2.local\resources\Проектный отдел\Общие\Администрирование\Список сотрудников ПД\Список сотрудников ПД.xlsx"
-    path_to_templates = fr"\\pnk2.local\resources\Проектный отдел\Общие\Администрирование\Табель\{date}_Табели"
-    path_to_file_to_be_copy = fr"\\pnk2.local\resources\Проектный отдел\Общие\Администрирование\Табель\Шаблоны табелей\_Шаблон_Табеля_{date}.xlsx"
-
-    database = DataBase(path_to_workers)  # создаем папку - если её нет
-    dir_create(path_to_templates)  # копируем шаблон и переименовываем под БД
-
+def database_define(date, path_to_workers, path_to_templates, path_to_file_to_be_copy):
+    path_to_templates += fr"\{date}_Табели"
+    path_to_file_to_be_copy += fr"\_Шаблон_Табеля_{date}.xlsx"
+    database = DataBase(path_to_workers)  # копируем шаблон и переименовываем под БД
     database.create_files(date, path_to_file_to_be_copy, path_to_templates)  # создаем файлы по шаблону БД
 
 
 if __name__ == '__main__':
-    main()
+    window = Window(500, 150)
+    window.run()
