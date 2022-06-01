@@ -1,20 +1,106 @@
 from tkinter import *
 from tkinter import filedialog
-from pprint import pprint as pp
 from tkinter import ttk
-from .app_dao import DataBase
+
 import json
 
+from shutil import copy
 
-def database_define(date, path_to_workers, path_to_templates, path_to_file_to_be_copy):
-    path_to_templates += fr"\{date}_Табели"
-    path_to_file_to_be_copy += fr"\_Шаблон_Табеля_{date}.xlsx"
-    database = DataBase(path_to_workers)  # копируем шаблон и переименовываем под БД
-    # database.create_files(date, path_to_file_to_be_copy, path_to_templates)  # создаем файлы по шаблону БД
+from openpyxl import Workbook, load_workbook
+
+from os.path import exists
+from os import mkdir
+import datetime
+
+from pprint import pprint as pp
 
 
-class Window:
+def timestamp(func):
+    """
+    Декоратор timestamp
+    :param func: функция декоратора
+    :return: возвращает время затраченное на обработку функции
+    """
+
+    def wrapper(*args):
+        start = datetime.datetime.now()
+        func(*args)
+        pp(f"Затрачено времени на генерацию: {datetime.datetime.now() - start}")
+
+    return wrapper
+
+
+class Interface:
+    def __init__(self):
+        self.config = self._config_loader()
+
+    @staticmethod
+    def _config_loader():
+        with open("default_values.json", "r", encoding="UTF-8") as f:
+            return json.load(f)
+
+    def _config_writer(self, setting, input_from_user):
+        self.config[setting] = input_from_user
+        with open("default_values.json", "w", encoding="UTF-8") as f:
+            json.dump(self.config, f, ensure_ascii=False, indent=2)
+
+
+class DataBase(Interface):
+    def __init__(self):
+        super().__init__()
+        """
+        Создаем базу данных, вызываем загрузку в конструкторе
+        :param path: Путь до списка сотрудников в формате xlsx
+        """
+        self._db = []
+        self._load_db()
+
+    def _load_db(self):
+        """
+        Загрузка БД xlsx с Лист1
+        :return:
+        """
+        wb = load_workbook(self.config["path_1"])
+        sheet_ranges = wb["Лист1"]
+        for row in sheet_ranges.iter_rows():
+            for cell in row:
+                self._db.append(cell.value)
+
+    def _dir_create(self):
+        """
+        Проверка наличия папки, если она не создана - создаем
+        :param path: путь к папке
+        """
+        if not exists(self.config["path_2"]):
+            mkdir(self.config["path_2"])
+
+    def __repr__(self):
+        return "\n".join(self._db)
+
+    @property
+    def db(self):
+        """
+        Геттер
+        :return: защищенная переменная _db
+        """
+        return self._db
+
+    @timestamp
+    def create_files(self, date, path_to_copy, path_to_template):
+        self._dir_create()
+        for item in self._db:
+            try:
+                path_to_templates += fr"\{date}_Табели"
+                path_to_file_to_be_copy += fr"\_Шаблон_Табеля_{date}.xlsx"
+                copy(path_to_copy, fr"{path_to_template}\{self.config['combo_4']}_{item}.xlsx")
+                pp(f"Создание файла: {self.config['combo_4']}_{item} - создан!")
+            except (FileNotFoundError, InterruptedError):
+                pp(f"Ошибка при создании файла: {date}_{item}")
+
+
+class Window(DataBase):
     def __init__(self, width, height, title="Создание табелей", resizable=(False, False), icon=None):
+        super().__init__()
         self.root = Tk()
         self.root.title(title)
         self.root.geometry(f"{width}x{height}+200+200")
@@ -39,9 +125,9 @@ class Window:
                 "2201", "2202", "2203", "2204", "2205", "2206", "2207", "2208", "2209", "2210", "2211", "2212"
         ])
         self.btn_4 = Button(self.btn_line, text="Создать табели", width=30, command=self._btn_4)
-        self.path_to_file_1 = self._config_loader()["path_1"]
-        self.path_to_file_2 = self._config_loader()["path_2"]
-        self.path_to_file_3 = self._config_loader()["path_3"]
+        self.path_to_file_1 = self.config["path_1"]
+        self.path_to_file_2 = self.config["path_2"]
+        self.path_to_file_3 = self.config["path_3"]
 
     def draw_widgets(self):
         self.first_line.pack()
@@ -69,19 +155,8 @@ class Window:
         self.draw_widgets()
         self.root.mainloop()
 
-    def _config_loader(self):
-        with open("default_values.json", "r", encoding="UTF-8") as f:
-            return json.load(f)
-
-    def _config_writer(self, setting, input_from_user):
-        db = self._config_loader()
-        db[setting] = input_from_user
-        with open("default_values.json", "w", encoding="UTF-8") as f:
-            json.dump(db, f, ensure_ascii=False, indent=2)
-
     def _default_values(self, setting):
-        config = self._config_loader()
-        for key, value in config.items():
+        for key, value in self.config.items():
             if setting == key and value:
                 return value
         return ""
@@ -110,4 +185,4 @@ class Window:
             self._config_writer("path_2", self.path_to_file_2)
             self._config_writer("path_3", self.path_to_file_3)
             self._config_writer("combo_4", self.combo_4.get())
-            database_define(self.combo_4.get(), self.path_to_file_1, self.path_to_file_2, self.path_to_file_3)
+            # Window.create_files()
